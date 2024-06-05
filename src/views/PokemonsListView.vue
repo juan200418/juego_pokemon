@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
     <div class="row">
       <div class="col d-flex justify-content-center">
@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="row p-3 mt-3 mb-3 d-flex justify-content-center">
-      <div v-for="pokemon in pokemons" class="col-sm-10">
+      <div v-for = " pokemon in pokemons " class="col-sm-10">
         <div @click="watchDetail(pokemon.name)" class="card d-flex justify-content-center align-items-center mb-3">
           <div class="card-title">
             <h4>
@@ -38,10 +38,10 @@ export default {
     console.log(this.pokemons)
   },
   methods: {
-    async watchDetail(name){
-      this.selectedPokemon = await PokemonServices.getPokemonDetail(name)
-      console.log('Pokemon', this.selectedPokemon)
-    }
+  async watchDetail(name){
+    await this.$router.push({ name: 'detalle', params: { name } });
   }
+}
+
 }
 </script>
