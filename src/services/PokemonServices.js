@@ -134,7 +134,7 @@ export default {
     // Aquí hay una implementación de ejemplo que devuelve los primeros 10 IDs.
     // Puedes modificarla para ajustarse a tus necesidades.
     let ids = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 151; i++) {
       ids.push(i);
     }
     return ids; // Devuelve la lista de IDs
