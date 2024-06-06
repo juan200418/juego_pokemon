@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/juegoPokemon">juego</router-link>
+    <router-link to="/juego">juego</router-link>
   </nav>
   <router-view/>
 </template>

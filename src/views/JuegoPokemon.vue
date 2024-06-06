@@ -6,7 +6,7 @@
   </div>
   <div v-if="!loading">
     <div class="row">
-      <div class="col-sm-10 d-flex justify-content-center">
+      <div class="col-sm-12 d-flex justify-content-center">
         <div class="container-image">
           <img v-if="!showResult" class="hidden-image" :src="correct.image" alt="" />
           <img v-if="showResult" :src="correct.image" alt="" />
@@ -14,14 +14,16 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div v-for="option in pokemons" :key="option.id" class="col-sm-6 d-flex justify-content-center">
-        <button
-          class="btn btn-primary mt-2 btn-option"
-          :disabled="disabledOptions"
-          @click="validateCorrect(option.id)"
-        >
-          {{ option.name }}
-        </button>
+      <div class="col-sm-6" v-for="option in pokemons" :key="option.id">
+        <div class="d-flex justify-content-center">
+          <button
+            class="btn btn-primary mt-2 btn-option"
+            :disabled="disabledOptions"
+            @click="validateCorrect(option.id)"
+          >
+            {{ option.name }}
+          </button>
+        </div>
       </div>
     </div>
     <div v-if="showResult">
@@ -49,7 +51,9 @@
   </div>
   <div v-else>
     <div class="row d-flex justify-content-center align-items-center container-loader">
-      <h4>Cargando...</h4>
+      <div class="spinner-border text-danger" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   </div>
 </template>
@@ -78,7 +82,22 @@ export default {
       this.loading = true;
       this.disabledOptions = false;
       this.showResult = false;
-      this.pokemons = await PokemonServices.getListForGame();
+      
+      // Obtener todos los Pokémon disponibles
+      const allPokemons = await PokemonServices.getListForGame();
+      
+      // Seleccionar cuatro Pokémon al azar
+      const selectedPokemons = [];
+      while (selectedPokemons.length < 4) {
+        const randomIndex = Math.floor(Math.random() * allPokemons.length);
+        const randomPokemon = allPokemons[randomIndex];
+        if (!selectedPokemons.some(pokemon => pokemon.id === randomPokemon.id)) {
+          selectedPokemons.push(randomPokemon);
+        }
+      }
+      
+      this.pokemons = selectedPokemons;
+      
       setTimeout(() => {
         this.pos = Math.floor(Math.random() * 4);
         this.correct = this.pokemons[this.pos];
@@ -107,7 +126,14 @@ export default {
   width: 200px;
   height: 200px;
 }
+.container-image img {
+  width: 100%; /* Ajustar el tamaño de la imagen */
+  height: auto; /* Mantener la proporción de la imagen */
+}
 .container-loader {
   height: 200px;
+}
+.btn-option {
+  width: 100%; /* Ajustar el ancho de los botones */
 }
 </style>
